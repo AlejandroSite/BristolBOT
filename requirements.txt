@@ -1,0 +1,23 @@
+# Servidor y API
+fastapi==0.110.0
+uvicorn==0.27.1
+httpx==0.27.0
+anyio==4.4.0
+
+# Comunicación y Entorno
+requests==2.31.0
+python-dotenv==1.0.1
+
+# IA (Groq)
+groq==0.9.0
+
+# Google Sheets (Nueva integración Opción B)
+gspread==6.1.0
+oauth2client==4.1.3
+google-api-python-client==2.122.0
+google-auth==2.29.0
+google-auth-oauthlib==1.2.0
+
+# Utilidades
+pillow==10.2.0
+apscheduler==3.10.4
