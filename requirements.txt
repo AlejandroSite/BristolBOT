@@ -11,9 +11,8 @@ python-dotenv==1.0.1
 # IA (Groq)
 groq==0.9.0
 
-# Google Sheets (Nueva integración Opción B)
+# Google Sheets (google-auth moderno)
 gspread==6.1.0
-oauth2client==4.1.3
 google-api-python-client==2.122.0
 google-auth==2.29.0
 google-auth-oauthlib==1.2.0

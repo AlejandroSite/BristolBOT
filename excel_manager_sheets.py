@@ -1,8 +1,11 @@
+import logging
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 from datetime import datetime
 from config import EXCEL_NAME, GOOGLE_APPLICATION_CREDENTIALS
 from cuotas_manager import estado_cuota
+
+logger = logging.getLogger("BristolBOT")
 
 COLUMNAS = [
     "Fecha carga", "Pagador", "Alumno", "Monto base",
@@ -13,15 +16,15 @@ COLUMNAS = [
 
 class ExcelManager:
     def __init__(self):
-        # Configuración de credenciales
-        scope = [
+        # Configuración de credenciales (google-auth moderno)
+        scopes = [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive"
         ]
 
         try:
-            creds = ServiceAccountCredentials.from_json_keyfile_name(
-                GOOGLE_APPLICATION_CREDENTIALS, scope
+            creds = Credentials.from_service_account_file(
+                GOOGLE_APPLICATION_CREDENTIALS, scopes=scopes
             )
             self.client = gspread.authorize(creds)
             
@@ -81,5 +84,6 @@ class ExcelManager:
     def obtener_datos_mes(self):
         try:
             return self._obtener_o_crear_hoja_mes().get_all_records()
-        except:
+        except Exception as e:
+            logger.error(f"Error al obtener datos del mes: {e}", exc_info=True)
             return []

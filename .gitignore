@@ -1,0 +1,25 @@
+# Secretos y credenciales
+.env
+credentials.json
+*.json
+!package.json
+
+# Datos sensibles
+*.xlsx
+*.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

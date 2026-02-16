@@ -1,8 +1,11 @@
+import logging
 from datetime import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 from excel_manager_sheets import ExcelManager
 from config import ACCESS_TOKEN, PHONE_NUMBER_ID
+
+logger = logging.getLogger("BristolBOT")
 
 excel_manager = ExcelManager()
 
@@ -24,14 +27,14 @@ def enviar_mensaje_whatsapp(telefono: str, mensaje: str):
     try:
         response = requests.post(url, headers=headers, json=data, timeout=10)
         if response.status_code == 200:
-            print(f"✅ Mensaje enviado a {telefono}")
+            logger.info(f"✅ Mensaje enviado a {telefono}")
         else:
-            print(f"❌ Error Meta: {response.status_code} - {response.text}")
+            logger.error(f"❌ Error Meta: {response.status_code} - {response.text}")
     except Exception as e:
-        print(f"⚠️ Error de conexión: {e}")
+        logger.error(f"⚠️ Error de conexión: {e}", exc_info=True)
 
 def aviso_pre_vencimiento():
-    print("Iniciando envío de avisos preventivos...")
+    logger.info("Iniciando envío de avisos preventivos...")
     registros = excel_manager.obtener_datos_mes()
 
     mensaje_friendly = (
@@ -48,7 +51,7 @@ def aviso_pre_vencimiento():
                 enviar_mensaje_whatsapp(telefono, mensaje_friendly)
 
 def aviso_post_vencimiento():
-    print("Iniciando envío de avisos con recargo...")
+    logger.info("Iniciando envío de avisos con recargo...")
     registros = excel_manager.obtener_datos_mes()
 
     for fila in registros:
